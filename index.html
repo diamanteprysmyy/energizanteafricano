@@ -315,6 +315,109 @@ src="https://www.facebook.com/tr?id=1492339461827553&ev=PageView&noscript=1"
     const ctaBlock = document.getElementById('ctaContainer');
     // tempo em ms (8 minutos = 480000 ms)
     const EIGHT_MINUTES_MS = 8 * 60 * 1000;
+    // 3) NOTIFICAÇÕES DE COMPRA - PROVA SOCIAL
+(function() {
+  const nomes = [
+    "Pereira Canjaia", "Amadeu Malaquias", "Alfredo Mateus", "Hermenegildo Gilberto ",
+    "Jabari Capalandanda", "Abel Ndavoca", "Pedro Esmael", "Bismarque Rocha",
+    "Fernando Adolfo", "Lote Copumi", "António Festo", "Omar Kiala",
+    "Benjamin Jorge", "Gonçalves Timoóteo", "Miguel Afonso", "Benedito Trava"
+  ];
+  
+  const imagemPerfil = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+  
+  const style = document.createElement('style');
+  style.textContent = `
+    .notif-compra {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      max-width: 320px;
+      background: #1a472a;
+      border-left: 5px solid #ffb347;
+      border-radius: 14px;
+      padding: 12px 15px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: notifEntrar 0.4s ease-out, notifSair 0.5s ease-in 5.5s forwards;
+      font-family: system-ui, sans-serif;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    @keyframes notifEntrar {
+      from { transform: translateX(-120%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes notifSair {
+      to { opacity: 0; display: none; }
+    }
+    .notif-icone {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #2a5a3a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffb347;
+      overflow: hidden;
+    }
+    .notif-icone img {
+      width: 60%;
+      height: 60%;
+      object-fit: contain;
+    }
+    .notif-texto {
+      flex: 1;
+    }
+    .notif-nome {
+      font-weight: 800;
+      color: #ffd966;
+      font-size: 0.9rem;
+    }
+    .notif-acao {
+      font-weight: 600;
+      color: white;
+      font-size: 0.8rem;
+    }
+    .notif-check {
+      color: #2ecc71;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    @media (max-width: 480px) {
+      .notif-compra { left: 10px; right: 10px; bottom: 10px; padding: 10px 12px; }
+      .notif-icone { width: 40px; height: 40px; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  function mostrarNotificacao() {
+    const nome = nomes[Math.floor(Math.random() * nomes.length)];
+    
+    const notif = document.createElement('div');
+    notif.className = 'notif-compra';
+    notif.innerHTML = `
+      <div class="notif-icone">
+        <img src="${imagemPerfil}" alt="perfil">
+      </div>
+      <div class="notif-texto">
+        <div class="notif-nome">${nome}</div>
+        <div class="notif-acao">⚡ Acabou de comprar</div>
+      </div>
+      <div class="notif-check">✓</div>
+    `;
+    
+    notif.onclick = () => notif.remove();
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 6000);
+  }
+  
+  setTimeout(() => mostrarNotificacao(), 3000);
+  setInterval(() => mostrarNotificacao(), Math.random() * 15000 + 25000);
+})();
 
     // Se já foi exibido anteriormente (armazenamento opcional para não reiniciar)
     const alreadyShown = sessionStorage.getItem('cta_revealed_enafricano');
